@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
  * @author MinhT
  */
 public class SearchController extends HttpServlet {
+
     private String SEARCH = "loadData.jsp";
     private String ERROR = "error.jsp";
 
@@ -40,20 +41,17 @@ public class SearchController extends HttpServlet {
         String url = ERROR;
         try {
             SourceDAO dao = new SourceDAO();
-            List<SourceDTO> listSearch= dao.searchByName(txt);
-            List<SourceDTO> listSearchName= dao.searchByCateN(txt);
-           HttpSession session = request.getSession();
-           session.setAttribute("src", listSearch);
-           session.setAttribute("src", listSearch);
-            url= SEARCH;
+            List<SourceDTO> listSearch = dao.searchByName(txt);
+//            HttpSession session = request.getSession();
+//            session.setAttribute("src", listSearch);
+            request.setAttribute("src", listSearch);
+            url = SEARCH;
         } catch (Exception e) {
-        }finally{
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-        
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

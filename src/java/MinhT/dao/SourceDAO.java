@@ -38,10 +38,10 @@ public class SourceDAO {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                listSource.add(new SourceDTO(rs.getString(1), 
-                        rs.getString(2), 
-                        rs.getString(3), 
-                        rs.getString(4), 
+                listSource.add(new SourceDTO(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
                         rs.getString(5)));
             }
         } catch (Exception e) {
@@ -54,24 +54,26 @@ public class SourceDAO {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String SQL = "SELECT TOP (1000) [productID]\n"
+        String SQL = "SELECT[productID]\n"
                 + "      ,[productName]\n"
                 + "      ,[color]\n"
                 + "      ,[categoryName]\n"
                 + "      ,[quanlity]\n"
-                + "  FROM [ResourceSharing].[dbo].[Resources]  inner join [ResourceSharing].[dbo].[Categories]"
-                + "  on [ResourceSharing].[dbo].[Resources].categoryID = [ResourceSharing].[dbo].[Categories].CateID  where [productName] like ? ";
+                + "FROM [ResourceSharing].[dbo].[Resources] inner join [ResourceSharing].[dbo].[Categories]\n"
+                + "ON [ResourceSharing].[dbo].[Resources].categoryID = [ResourceSharing].[dbo].[Categories].CateID  \n"
+                + "WHERE [categoryName] like ? or [productName] like ?";
         try {
             conn = new DBUtils().getConnection();
             ps = conn.prepareStatement(SQL);
             ps.setString(1, "%" + txtSearch + "%");
+            ps.setString(2, "%" + txtSearch + "%");
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                ListS.add(new SourceDTO(rs.getString(1), 
-                        rs.getString(2), 
-                        rs.getString(3), 
-                        rs.getString(4), 
+                ListS.add(new SourceDTO(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
                         rs.getString(5)));
 
             }
@@ -79,62 +81,41 @@ public class SourceDAO {
         }
         return ListS;
     }
-     public List<SourceDTO> searchByCateN(String txtSearch) {
+
+    
+      public int count(String txtSearch) {
         List<SourceDTO> ListS = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String SQL = "SELECT TOP (1000) [productID]\n"
+        String SQL = "SELECT[productID]\n"
                 + "      ,[productName]\n"
                 + "      ,[color]\n"
                 + "      ,[categoryName]\n"
                 + "      ,[quanlity]\n"
-                + "  FROM [ResourceSharing].[dbo].[Resources]  inner join [ResourceSharing].[dbo].[Categories]"
-                + "  on [ResourceSharing].[dbo].[Resources].categoryID = [ResourceSharing].[dbo].[Categories].CateID  where [categoryName] like ? ";
+                + "FROM [ResourceSharing].[dbo].[Resources] inner join [ResourceSharing].[dbo].[Categories]\n"
+                + "ON [ResourceSharing].[dbo].[Resources].categoryID = [ResourceSharing].[dbo].[Categories].CateID  \n"
+                + "WHERE [categoryName] like ? or [productName] like ?";
         try {
             conn = new DBUtils().getConnection();
             ps = conn.prepareStatement(SQL);
             ps.setString(1, "%" + txtSearch + "%");
+            ps.setString(2, "%" + txtSearch + "%");
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                ListS.add(new SourceDTO(rs.getString(1), 
-                        rs.getString(2), 
-                        rs.getString(3), 
-                        rs.getString(4), 
+                ListS.add(new SourceDTO(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
                         rs.getString(5)));
 
             }
         } catch (Exception e) {
         }
-        return ListS;
-    }
-      public int Count(String txtSearch) {
-       
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        String SQL = "SELECT (count [productID]\n"
-                + "      ,[productName]\n"
-                + "      ,[color]\n"
-                + "      ,[categoryName]\n"
-                + "      ,[quanlity])\n"
-                + "  FROM [ResourceSharing].[dbo].[Resources]  inner join [ResourceSharing].[dbo].[Categories]"
-                + "  on [ResourceSharing].[dbo].[Resources].categoryID = [ResourceSharing].[dbo].[Categories].CateID  where [categoryName] like ? ";
-        try {
-            conn = new DBUtils().getConnection();
-            ps = conn.prepareStatement(SQL);
-            ps.setString(1, "%" + txtSearch + "%");
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                return rs.getInt(1);
-
-            }
-        } catch (Exception e) {
-        }
-      return 0;
+       return 0;
     }
 
+    
 
 }
