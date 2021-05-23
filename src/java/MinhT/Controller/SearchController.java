@@ -41,10 +41,16 @@ public class SearchController extends HttpServlet {
         String url = ERROR;
         try {
             SourceDAO dao = new SourceDAO();
+            int count = dao.count(txt);
+            int size=3;
+            int endPage= count/size;
+            if(count % size != 0){
+                endPage++;
+            }
+            
             List<SourceDTO> listSearch = dao.searchByName(txt);
-//            HttpSession session = request.getSession();
-//            session.setAttribute("src", listSearch);
             request.setAttribute("src", listSearch);
+            request.setAttribute("endPage", endPage);
             url = SEARCH;
         } catch (Exception e) {
         } finally {

@@ -23,6 +23,11 @@
                             <i class="fa fa-search">tìm kiếm</i>
                         </button>
                     </div>
+                    <div>
+                        <c:forEach begin="1" end="${endPage}" var="i">
+                            <a href="#">${i}</a>
+                        </c:forEach>
+                    </div>
                 </div>
             </form>
             <table border="1px solid black" action="btnAction">
@@ -41,22 +46,17 @@
                             ${x.color}
                         </td>
                         <td>
-                           ${x.categoryName}
+                            ${x.categoryName}
                         </td>
                         <td>
                             ${x.quanlity}
                         </td>
                     </tr>
                 </c:forEach>
-                    <div class="paging">
-                        <c:forEach begin="1" end="${endpage}" var="i">
-                            <a href="#">${i}</a>
-                        </c:forEach>
-                        
-                    </div>
             </table>
             <a href="Update.jsp">accept</a>
             <a href="MainController?btnAction=logout">LogOut</a>
+
         </c:if>
 
         <c:if test = "${sessionScope.acc.roleid==1}">
