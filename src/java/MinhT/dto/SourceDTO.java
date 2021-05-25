@@ -5,6 +5,8 @@
  */
 package MinhT.dto;
 
+import java.sql.Date;
+
 /**
  *
  * @author MinhT
@@ -15,13 +17,15 @@ public class SourceDTO {
    private String color ;
    private String quanlity ;
    private String CategoryName;
+   private String createdate;
 
-    public SourceDTO(String productID, String productName, String color, String quanlity, String CategoryName) {
+    public SourceDTO(String productID, String productName, String color, String quanlity, String CategoryName, String createdate) {
         this.productID = productID;
         this.productName = productName;
         this.color = color;
         this.quanlity = quanlity;
         this.CategoryName = CategoryName;
+        this.createdate = createdate;
     }
 
     public String getProductID() {
@@ -64,12 +68,19 @@ public class SourceDTO {
         this.CategoryName = CategoryName;
     }
 
-    @Override
-    public String toString() {
-        return "SourceDTO{" + "productID=" + productID + ", productName=" + productName + ", color=" + color + ", quanlity=" + quanlity + ", CategoryName=" + CategoryName + '}';
+    public String getCreatedate() {
+        return createdate;
     }
 
-    
+    public void setCreatedate(String createdate) {
+        this.createdate = createdate;
+    }
 
-    
+    @Override
+    public String toString() {
+        return "SourceDTO{" + "productID=" + productID + ", productName=" + productName + ", color=" + color + ", quanlity=" + quanlity + ", CategoryName=" + CategoryName + ", createdate=" + createdate + '}';
+    }
+
+   
+
 }

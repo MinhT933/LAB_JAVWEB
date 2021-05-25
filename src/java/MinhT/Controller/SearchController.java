@@ -38,7 +38,13 @@ public class SearchController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String txt = request.getParameter("txt");
+        String index= request.getParameter("index");
+        int number =0;
+        if(index != null){
+           number=Integer.parseInt(index);
+        }
         String url = ERROR;
+        
         try {
             SourceDAO dao = new SourceDAO();
             int count = dao.count(txt);
@@ -47,10 +53,11 @@ public class SearchController extends HttpServlet {
             if(count % size != 0){
                 endPage++;
             }
-            
-            List<SourceDTO> listSearch = dao.searchByName(txt);
+            System.out.println(endPage);
+            List<SourceDTO> listSearch = dao.searchByName(txt, number);
             request.setAttribute("src", listSearch);
             request.setAttribute("endPage", endPage);
+            request.setAttribute("txt", txt);
             url = SEARCH;
         } catch (Exception e) {
         } finally {

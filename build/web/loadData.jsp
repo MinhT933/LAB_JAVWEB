@@ -14,10 +14,16 @@
     </head>
     <body>
         <h1 ${sessionScope.acc!= null}> hello ${sessionScope.acc.name}</h1> 
+        <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary btn-number">
+                            <a class="fa fa-search" href="LoadSourceControll" > Home</a>
+                        </button>
+         </div>
         <c:if test='${sessionScope.acc.roleid==2}'>
-            <form action="MainController?btnAction=search" method="post" class="form-inline my-2 my-lg-0">
+            <form action="MainController?btnAction=search&index=1" method="post" class="form-inline my-2 my-lg-0">
                 <div class="input-group input-group-sm">
                     <input name="txt" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
+                     <input type="date" name="dateSearch" value="'${v}'" />
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-secondary btn-number">
                             <i class="fa fa-search">tìm kiếm</i>
@@ -25,7 +31,7 @@
                     </div>
                     <div>
                         <c:forEach begin="1" end="${endPage}" var="i">
-                            <a href="#">${i}</a>
+                            <a href="SearchController?index=${i}&txt=${txt}">${i}</a>
                         </c:forEach>
                     </div>
                 </div>
@@ -37,6 +43,7 @@
                     <th>color</th>
                     <th>quanlity</th>
                     <th>Category Name</th>
+                    <th>Create Date</th>
                 </tr>
                 <c:forEach items="${src}" var="x" varStatus="1">
                     <tr>
@@ -50,6 +57,9 @@
                         </td>
                         <td>
                             ${x.quanlity}
+                        </td>
+                         <td>
+                            ${x.createdate}
                         </td>
                     </tr>
                 </c:forEach>

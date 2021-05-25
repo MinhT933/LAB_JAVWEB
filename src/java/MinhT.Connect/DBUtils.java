@@ -18,7 +18,7 @@ public class DBUtils {
          Connection conn= null;       
         try {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String url= "jdbc:sqlserver://localhost:1433;databaseName=ResourceSharing";
+        String url= "jdbc:sqlserver://localhost:1433;databaseName=ResourceSharing1";
         conn = DriverManager.getConnection(url, "sa", "12345");
         } catch (Exception e) {
             System.out.println("sai connect");
