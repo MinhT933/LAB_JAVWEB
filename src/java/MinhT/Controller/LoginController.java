@@ -40,8 +40,9 @@ public class LoginController extends HttpServlet {
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("pass");
+            String email="";
             UserDAO dao = new UserDAO();
-            UserDTO user = dao.Login(username, password);
+            UserDTO user = dao.Login(username, password,email);
             if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("acc", user);

@@ -5,18 +5,24 @@
  */
 package MinhT.dto;
 
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *
  * @author MinhT
  */
-public class RequestDTO {
-    private String requestID;
-    private String dateBook;
-    private String statusReqID;
+public class RequestDTO implements Serializable{
+    private int requestID;
+    private Date dateBook;
+    private int statusReqID;
     private String email;
     private String productID;
 
-    public RequestDTO(String requestID, String dateBook, String statusReqID, String email, String productID) {
+    public RequestDTO(int requestID, Date dateBook, int statusReqID, String email, String productID) {
         this.requestID = requestID;
         this.dateBook = dateBook;
         this.statusReqID = statusReqID;
@@ -24,27 +30,27 @@ public class RequestDTO {
         this.productID = productID;
     }
 
-    public String getRequestID() {
+    public int getRequestID() {
         return requestID;
     }
 
-    public void setRequestID(String requestID) {
+    public void setRequestID(int requestID) {
         this.requestID = requestID;
     }
 
-    public String getDateBook() {
+    public Date getDateBook() {
         return dateBook;
     }
 
-    public void setDateBook(String dateBook) {
+    public void setDateBook(Date dateBook) {
         this.dateBook = dateBook;
     }
 
-    public String getStatusReqID() {
+    public int getStatusReqID() {
         return statusReqID;
     }
 
-    public void setStatusReqID(String statusReqID) {
+    public void setStatusReqID(int statusReqID) {
         this.statusReqID = statusReqID;
     }
 
@@ -64,8 +70,6 @@ public class RequestDTO {
         this.productID = productID;
     }
 
-    @Override
-    public String toString() {
-        return "RequestDTO{" + "requestID=" + requestID + ", dateBook=" + dateBook + ", statusReqID=" + statusReqID + ", email=" + email + ", productID=" + productID + '}';
-    }
+
+   
 }

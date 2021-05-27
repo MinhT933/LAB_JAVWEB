@@ -16,14 +16,16 @@
         <h1 ${sessionScope.acc!= null}> hello ${sessionScope.acc.name}</h1> 
         <div class="input-group-append">
                         <button type="submit" class="btn btn-secondary btn-number">
-                            <a class="fa fa-search" href="LoadSourceControll" > Home</a>
+                            <a class="fa fa-search" href="LoadSourceControll"> Home</a>
                         </button>
          </div>
-        <c:if test='${sessionScope.acc.roleid==2}'>
+        <c:if test='${sessionScope.acc.roleID==1}'>
+           <h1 style="color: green">${requestScope.bookingSuccess}</h1>
+           <h1 style="color: fail">${requestScope.bookingFail}</h1>
             <form action="MainController?btnAction=search&index=1" method="post" class="form-inline my-2 my-lg-0">
                 <div class="input-group input-group-sm">
                     <input name="txt" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
-                     <input type="date" name="dateSearch" value="'${v}'" />
+                  
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-secondary btn-number">
                             <i class="fa fa-search">tìm kiếm</i>
@@ -36,6 +38,9 @@
                     </div>
                 </div>
             </form>
+            <form method="Post" action="MainController?btnAction=Viewlist">
+            <input type="submit" value="View List Booking" name="btnAction" />
+            </form>
             <table border="1px solid black" action="btnAction">
                 <tr>
                     <th>productID</th>
@@ -44,10 +49,11 @@
                     <th>quanlity</th>
                     <th>Category Name</th>
                     <th>Create Date</th>
+                    <th>funtion<th>
                 </tr>
                 <c:forEach items="${src}" var="x" varStatus="1">
                     <tr>
-                        <td name="id">${x.productID}</td>
+                        <td name="id"> ${x.productID}</td>
                         <td>${x.productName}</td>
                         <td>
                             ${x.color}
@@ -61,6 +67,12 @@
                          <td>
                             ${x.createdate}
                         </td>
+                        <td>
+                                <form method="POST" action="MainController?btnAtion=Booking&id=${x.getProductID()}">
+                                    <input type="hidden" name="productID" value="${x.getProductID()}" />
+                                    <input type="submit" name="btnAction" value="Booking" />
+                                </form>
+                         </td>
                     </tr>
                 </c:forEach>
             </table>
@@ -69,7 +81,7 @@
 
         </c:if>
 
-        <c:if test = "${sessionScope.acc.roleid==1}">
+        <c:if test = "${sessionScope.acc.roleID==2}">
             <table border="1px solid black" action="btnAction">
                 <tr>
                     <th>request ID</th>

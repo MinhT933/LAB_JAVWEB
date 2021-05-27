@@ -8,6 +8,7 @@ package MinhT.dao;
 import MinhT.Connect.DBUtils;
 import MinhT.dto.CategoriesDTO;
 import MinhT.dto.SourceDTO;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * @author MinhT
  */
-public class CategoriesDAO {
+public class CategoriesDAO implements Serializable{
 
     public List<CategoriesDTO> loadCate() {
         List<CategoriesDTO> listCate = new ArrayList<>();

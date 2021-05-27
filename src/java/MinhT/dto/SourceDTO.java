@@ -5,13 +5,14 @@
  */
 package MinhT.dto;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  *
  * @author MinhT
  */
-public class SourceDTO {
+public class SourceDTO implements Serializable {
   private String productID;
   private  String productName;
    private String color ;
@@ -80,6 +81,7 @@ public class SourceDTO {
     public String toString() {
         return "SourceDTO{" + "productID=" + productID + ", productName=" + productName + ", color=" + color + ", quanlity=" + quanlity + ", CategoryName=" + CategoryName + ", createdate=" + createdate + '}';
     }
+   
 
    
 

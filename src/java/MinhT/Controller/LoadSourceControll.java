@@ -43,11 +43,9 @@ public class LoadSourceControll extends HttpServlet {
         String url = ERROR;
         SourceDAO dao = new SourceDAO();
         RequestDAO dao1= new RequestDAO();
-       
         try {
             List<SourceDTO> list = dao.loadData();
             HttpSession session = request.getSession();
-//            request.setAttribute("list", list);
             session.setAttribute("src", list);
             List<RequestDTO> listReq = dao1.loadReqsData();
             request.setAttribute("listReq", listReq);

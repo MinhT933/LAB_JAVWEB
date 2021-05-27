@@ -18,6 +18,7 @@
             Use Name: <input type="text" name="username"/><br>
             Password: <input type="password" name="pass"/><br>
             <input type="submit" value="Login"/>
+            <a href="Register.jsp">Register Account</a>
         </form>
     </body>
 </html>

@@ -24,6 +24,22 @@
         <servlet-name>SearchPagingControll</servlet-name>
         <servlet-class>MinhT.Controller.SearchPagingControll</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterController</servlet-name>
+        <servlet-class>MinhT.Controller.RegisterController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingController</servlet-name>
+        <servlet-class>MinhT.Controller.BookingController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadlListBookingControll</servlet-name>
+        <servlet-class>MinhT.Controller.LoadlListBookingControll</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerifyCodeServlet</servlet-name>
+        <servlet-class>MinhT.Controller.VerifyCodeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -47,6 +63,22 @@
     <servlet-mapping>
         <servlet-name>SearchPagingControll</servlet-name>
         <url-pattern>/SearchPagingControll</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterController</servlet-name>
+        <url-pattern>/RegisterController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/BookingController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadlListBookingControll</servlet-name>
+        <url-pattern>/LoadlListBookingControll</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyCodeServlet</servlet-name>
+        <url-pattern>/VerifyCodeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

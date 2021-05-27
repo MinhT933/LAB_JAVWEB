@@ -21,7 +21,12 @@ public class MainController extends HttpServlet {
     private String HOME= "login.jsp";
     private String LOGIN_SUCCESS= "LoginController";
     private String LOGOUT="LogoutController";
+    private String RESET= "LoadSourceControll";
     private String SEARCH="SearchController";
+    private String REGISTER_SERVLET = "RegisterController";
+    private String BOOKING= "BookingController";
+    private String LOAD_LIST_BOOKING= "LoadlListBookingControll";
+    private String SUBMIT_CODE="VerifyCodeServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,6 +51,16 @@ public class MainController extends HttpServlet {
                 url=LOGOUT;
             }if(namebutton.equals("search")){
                 url=SEARCH;
+            }if(namebutton.equals("create")){
+                url = REGISTER_SERVLET;
+            }if(namebutton.equals("Booking")){
+                url = BOOKING;
+            }if(namebutton.equals("Viewlist")){
+                url=LOAD_LIST_BOOKING;
+            }if(namebutton.equals("reset")){
+                url= RESET;
+            }if(namebutton.equals("submit")){
+                url=SUBMIT_CODE;
             }
         } catch (Exception e){
         }finally{

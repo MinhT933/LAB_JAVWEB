@@ -72,14 +72,15 @@ public class SourceDAO {
                 + "	      ,[createDate]\n"
                 + "            FROM [ResourceSharing1].[dbo].[Resources] inner join [ResourceSharing1].[dbo].[Categories]\n"
                 + "            ON [ResourceSharing1].[dbo].[Resources].categoryID = [ResourceSharing1].[dbo].[Categories].categoryID\n"
-                + "            WHERE [categoryName] like ? or [productName] like ? ) as x where rowid between ?*3-2 and ?*3";
+                + "            WHERE [categoryName] like ? or [productName] like ? or [createDate] like ? ) as x where rowid between ?*3-2 and ?*3";
         try {
             conn = new DBUtils().getConnection();
             ps = conn.prepareStatement(SQL);
             ps.setString(1, "%" + txtSearch + "%");
             ps.setString(2, "%" + txtSearch + "%");
-            ps.setInt(3, index);
+            ps.setString(3, "%" + txtSearch + "%");
             ps.setInt(4, index);
+            ps.setInt(5, index);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -129,6 +130,8 @@ public class SourceDAO {
         System.out.println(count);
 
     }
+
+ 
     
   
 }
