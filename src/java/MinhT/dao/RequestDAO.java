@@ -49,7 +49,7 @@ public class RequestDAO {
                         rs.getString(5)));
             }
         } catch (Exception e) {
-        }finally{
+        } finally {
             if (ps != null) {
                 ps.close();
             }
@@ -89,7 +89,7 @@ public class RequestDAO {
                         rs.getString("createDate"));
             }
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         } finally {
             if (ps != null) {
                 ps.close();
@@ -105,7 +105,6 @@ public class RequestDAO {
 
     }
 
-
     public boolean updateStatusRequest(int requestID, int statusID) throws NamingException, SQLException {
         boolean flag = false;
         try {
@@ -119,7 +118,7 @@ public class RequestDAO {
                 flag = ps.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
-             e.printStackTrace();
+            e.printStackTrace();
         } finally {
             if (ps != null) {
                 ps.close();
@@ -134,7 +133,6 @@ public class RequestDAO {
         }
         return flag;
     }
-
 
     public boolean bookingResource(RequestDTO requestBooking) throws NamingException, SQLException, ClassNotFoundException {
         boolean isBook = false;
@@ -163,5 +161,30 @@ public class RequestDAO {
         return isBook;
     }
 
+    public void deleteRequestByid(String id) throws SQLException {
+        String sql = "delete from [ResourceSharing1].[dbo].[Requests] where [requestID] = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null){
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, id);
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+        }
+    }
 
 }

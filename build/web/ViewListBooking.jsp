@@ -74,7 +74,7 @@
                                 Waiting admin accept
                             </td>
                             <td>
-                                <form action="DispatchController" method="Post">
+                                <form action="MainController?btnAction=delete&id=${item.requestID}" method="Post">
                                     <input type="hidden" name="requestID" value="${item.requestID}" />
                                     <input type="submit" value="Delete Request" name="btnAction"/>
                                 </form>

@@ -76,7 +76,7 @@ public class BookingController extends HttpServlet {
             request.setAttribute("errBooking", "Please booking another resource");
             request.setAttribute("idProductOutOfNumber", resource.getProductID());
         }
-        request.getRequestDispatcher("LoadlListBookingControll").forward(request, response);
+        request.getRequestDispatcher("LoadSourceControll").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

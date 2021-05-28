@@ -37,7 +37,7 @@ public class UserDAO {
                 if (rs.next()) {
                     int roleID = rs.getInt("roleID");
                     email= rs.getString("email");
-                    user = new UserDTO(name, password, roleID);
+                    user = new UserDTO(name, password, roleID, email);
                 }
             }
         } catch (SQLException ex) {

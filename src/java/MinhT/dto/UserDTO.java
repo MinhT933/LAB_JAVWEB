@@ -32,15 +32,13 @@ public class UserDTO implements Serializable{
         this.email = email;
     }
 
-    public UserDTO(String name, String password, int roleID) {
+    public UserDTO(String name, String password, int roleID,String email) {
         this.name = name;
         this.password = password;
          this.roleID = roleID;
+         this.email = email;
     }
-
-   
-
-
+    
     public String getName() {
         return name;
     }
