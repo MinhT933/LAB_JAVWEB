@@ -5,8 +5,20 @@
  */
 package MinhT.Controller;
 
+import MinhT.dao.RequestDAO;
+import MinhT.dao.SourceDAO;
+import MinhT.dao.StatusRequestsDAO;
+import MinhT.dto.RequestDTO;
+import MinhT.dto.SourceDTO;
+import MinhT.dto.StatusRequestDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,18 +43,36 @@ public class deleteRequestControll extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet deleteRequestControll</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet deleteRequestControll at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = "";
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            String id = request.getParameter("id");
+            RequestDAO dao = new RequestDAO();
+            dao.deleteRequestByid(id);
+            RequestDAO requestDAO = new RequestDAO();
+            SourceDAO resourceDAO = new SourceDAO();
+            StatusRequestsDAO statusRequestDAO = new StatusRequestsDAO();
+            List<RequestDTO> listRequestBooking = new ArrayList<>();
+            List<SourceDTO> listResources = new ArrayList<>();
+            ArrayList<StatusRequestDTO> listStatusRequest = new ArrayList<>();
+            listRequestBooking= requestDAO.loadReqsData();
+            listResources=resourceDAO.loadData();
+            try {
+                listStatusRequest= statusRequestDAO.getAllListStatusRequest();
+            } catch (NamingException ex) {
+                Logger.getLogger(deleteRequestControll.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(deleteRequestControll.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("listStatusRequest", listStatusRequest);
+            
+            request.setAttribute("listResouces", listResources);
+            request.setAttribute("listRequestBooking", listRequestBooking);
+            url="ViewListBooking.jsp";
+        } catch (SQLException ex) {
+            Logger.getLogger(deleteRequestControll.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
