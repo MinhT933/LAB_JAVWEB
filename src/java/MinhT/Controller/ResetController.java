@@ -26,10 +26,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author MinhT
  */
-public class LoadlListBookingControll extends HttpServlet {
-
-    private String ERROR = "Login.jsp";
-    private String SUCCESS = "ViewListBooking.jsp";
+public class ResetController extends HttpServlet {
+    private String  ERROR = "error.jsp";
+    private String LOAD_SUCCESS="loadRequetsControll";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,9 +42,15 @@ public class LoadlListBookingControll extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+      String url = ERROR;
+        SourceDAO dao = new SourceDAO();
+        RequestDAO dao1= new RequestDAO();
         try {
+            List<SourceDTO> list = dao.loadData();
             HttpSession session = request.getSession();
+            session.setAttribute("src", list);
+            List<RequestDTO> listReq = dao1.loadReqsData();
+            request.setAttribute("listReq", listReq);
             UserDTO user = (UserDTO) session.getAttribute("user");
             RequestDAO requestDAO = new RequestDAO();
             SourceDAO resourceDAO = new SourceDAO();
@@ -58,13 +63,10 @@ public class LoadlListBookingControll extends HttpServlet {
             listStatusRequest= statusRequestDAO.getAllListStatusRequest();
             request.setAttribute("listStatusRequest", listStatusRequest);
             request.setAttribute("listResouces", listResources);
-            
             request.setAttribute("listRequestBooking", listRequestBooking);
-            
-         
-            url = SUCCESS;
+            url=LOAD_SUCCESS;
         } catch (Exception e) {
-        } finally {
+        }finally{
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

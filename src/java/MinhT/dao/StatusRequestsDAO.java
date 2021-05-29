@@ -16,7 +16,8 @@ import javax.naming.NamingException;
 
 /**
  *
- * @author Admin
+ * @author MinhT
+ *
  */
 public class StatusRequestsDAO {
 
@@ -24,19 +25,7 @@ public class StatusRequestsDAO {
     private Connection cn = null;
     private ResultSet rs = null;
 
-    public void close() throws SQLException {
-        if (pstm != null) {
-            pstm.close();
-        }
-        if (cn != null) {
-            cn.close();
-        }
-        if (rs != null) {
-            rs.close();
-        }
-    }
-
-    public ArrayList<StatusRequestDTO> getAllListStatusRequest() throws SQLException, NamingException, ClassNotFoundException{
+    public ArrayList<StatusRequestDTO> getAllListStatusRequest() throws SQLException, NamingException, ClassNotFoundException {
         ArrayList<StatusRequestDTO> listStatus = new ArrayList<>();
         try {
             cn = DBUtils.getConnection();
@@ -44,12 +33,20 @@ public class StatusRequestsDAO {
                 String sql = "select statusReqID, statusReqName from StatusRequest";
                 pstm = cn.prepareStatement(sql);
                 rs = pstm.executeQuery();
-                while (rs.next()) {                    
+                while (rs.next()) {
                     listStatus.add(new StatusRequestDTO(rs.getInt("statusReqID"), rs.getString("statusReqName")));
                 }
             }
         } finally {
-            close();
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (cn != null) {
+                cn.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
         }
         return listStatus;
     }

@@ -28,7 +28,8 @@ public class MainController extends HttpServlet {
     private String LOAD_LIST_BOOKING= "LoadlListBookingControll";
     private String SUBMIT_CODE="VerifyCodeServlet";
     private String DELETE_REQUEST="deleteRequestControll";
-
+    private String DELETE_REQUEST_BY_ADMIN="DeleteReqsFromUser";
+    private String ACCEPT_REQUEST_FROM_USER= "AcceptReqsController";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -64,6 +65,10 @@ public class MainController extends HttpServlet {
                 url=SUBMIT_CODE;
             }if(namebutton.equals("delete")){
                 url = DELETE_REQUEST;
+            }if(namebutton.equals("deleteReqs")){
+                url=DELETE_REQUEST_BY_ADMIN;
+            }if(namebutton.equals("Accept")){
+                url=ACCEPT_REQUEST_FROM_USER;
             }
         } catch (Exception e){
         }finally{

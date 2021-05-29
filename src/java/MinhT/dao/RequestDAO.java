@@ -110,7 +110,7 @@ public class RequestDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "update Requests set statusReqID = ? "
+                String sql = "update [ResourceSharing1].[dbo].[Requests] set statusReqID = ? "
                         + "where requestID = ?";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, statusID);
@@ -139,7 +139,7 @@ public class RequestDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "  insert  into [ResourceSharing1].[dbo].[Requests](dateBook, statusReqID, email, productID) values(?,?,?,?)";
+                String sql = "  insert  into [ResourceSharing1].[dbo].[Requests]([dateBook], [statusReqID], [email], [productID]) values(?,?,?,?)";
                 ps = conn.prepareStatement(sql);
                 ps.setDate(1, requestBooking.getDateBook());
                 ps.setInt(2, requestBooking.getStatusReqID());
@@ -168,7 +168,7 @@ public class RequestDAO {
 
         try {
             conn = DBUtils.getConnection();
-            if (conn != null){
+            if (conn != null) {
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, id);
                 ps.executeUpdate();
@@ -186,5 +186,34 @@ public class RequestDAO {
             }
         }
     }
+     public RequestDTO getDetailRequest(int requestID) throws SQLException, NamingException, ClassNotFoundException {
+        RequestDTO request = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "select requestID, dateBook, statusReqID, email, productID "
+                        + "from  [ResourceSharing1].[dbo].[Requests] where requestID = ? ";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, requestID);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    request = new RequestDTO(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getString(4), rs.getString(5));
+                }
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return request;
+    }
+    
+
 
 }

@@ -5,17 +5,16 @@
  */
 package MinhT.Controller;
 
+import MinhT.MyConstants;
 import MinhT.dao.RequestDAO;
-import MinhT.dao.SourceDAO;
-import MinhT.dao.StatusRequestsDAO;
 import MinhT.dto.RequestDTO;
-import MinhT.dto.SourceDTO;
-import MinhT.dto.StatusRequestDTO;
 import MinhT.dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,11 +25,11 @@ import javax.servlet.http.HttpSession;
  *
  * @author MinhT
  */
-public class LoadlListBookingControll extends HttpServlet {
+public class DeleteReqsFromUser extends HttpServlet {
 
-    private String ERROR = "Login.jsp";
-    private String SUCCESS = "ViewListBooking.jsp";
-
+    private String ERROR = "login.jsp";
+    private String SUCCESS = "LoadlListBookingControll";
+    private String ERROR_UPDATE = "LoadlListBookingControll";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,32 +40,38 @@ public class LoadlListBookingControll extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException{
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
-        try {
-            HttpSession session = request.getSession();
-            UserDTO user = (UserDTO) session.getAttribute("user");
-            RequestDAO requestDAO = new RequestDAO();
-            SourceDAO resourceDAO = new SourceDAO();
-            StatusRequestsDAO statusRequestDAO = new StatusRequestsDAO();
-            List<RequestDTO> listRequestBooking = new ArrayList<>();
-            List<SourceDTO> listResources = new ArrayList<>();
-            ArrayList<StatusRequestDTO> listStatusRequest = new ArrayList<>();
-            listRequestBooking= requestDAO.loadReqsData();
-            listResources=resourceDAO.loadData();
-            listStatusRequest= statusRequestDAO.getAllListStatusRequest();
-            request.setAttribute("listStatusRequest", listStatusRequest);
-            request.setAttribute("listResouces", listResources);
-            
-            request.setAttribute("listRequestBooking", listRequestBooking);
-            
-         
-            url = SUCCESS;
-        } catch (Exception e) {
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+        HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("acc");
+        String requestID = request.getParameter("requestID");
+        RequestDAO requestDAO = new RequestDAO();
+        String url = "";
+        if (user == null) {
+            url = ERROR;
+        } else {
+            try {
+                RequestDTO requestDetail = requestDAO.getDetailRequest(Integer.parseInt(requestID));
+                if (requestDetail.getStatusReqID() == MyConstants.STATUS_REQUEST_NEW) {
+                    boolean updateStatus = requestDAO.updateStatusRequest(requestDetail.getRequestID(), MyConstants.STATUS_REQUEST_DELETE);
+                    if (updateStatus) {
+                        request.setAttribute("successDelete", "request of user deleted successfully");
+                    }
+                } else {
+                    url = ERROR_UPDATE;
+                    request.setAttribute("errorDelete", "please load list request");
+                }
+            } catch (NamingException ex) {
+                Logger.getLogger(DeleteReqsFromUser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(DeleteReqsFromUser.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                 request.getRequestDispatcher(url).forward(request, response);
+
+            }
+
         }
+      
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,7 +86,11 @@ public class LoadlListBookingControll extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(DeleteReqsFromUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -95,7 +104,11 @@ public class LoadlListBookingControll extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(DeleteReqsFromUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

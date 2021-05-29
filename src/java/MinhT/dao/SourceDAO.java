@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.List;
+import javax.naming.NamingException;
 
 /**
  *
@@ -23,11 +24,14 @@ import java.util.List;
  */
 public class SourceDAO {
 
+    SourceDTO resouce = null;
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
     public List<SourceDTO> loadData() {
         List<SourceDTO> listSource = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+
         String sql = "SELECT top (100) [productID]\n"
                 + ",[productName]\n"
                 + ",[color]\n"
@@ -55,9 +59,7 @@ public class SourceDAO {
 
     public List<SourceDTO> searchByName(String txtSearch, int index) {
         List<SourceDTO> ListS = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+
         String SQL = " select rowid,[productID]\n"
                 + "           ,[productName]\n"
                 + "           ,[color]\n"
@@ -99,9 +101,7 @@ public class SourceDAO {
 
     public int count(String txtSearch) {
         List<SourceDTO> ListS = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+
         String SQL = " SELECT count ( [productID])\n"
                 + "                 FROM [ResourceSharing1].[dbo].[Resources] inner join [ResourceSharing1].[dbo].[Categories]\n"
                 + "                 ON [ResourceSharing1].[dbo].[Resources].categoryID = [ResourceSharing1].[dbo].[Categories].categoryID\n"
@@ -121,17 +121,66 @@ public class SourceDAO {
         return 0;
     }
 
-    public static void main(String[] args) {
-        String txt = "pro";
-        SourceDAO dao = new SourceDAO();
-        List<SourceDTO> search = dao.searchByName(txt, 2);
-        int count = dao.count(txt);
-        System.out.println(search);
-        System.out.println(count);
+    public SourceDTO getDetailResource(String resourceID) throws NamingException, SQLException, ClassNotFoundException {
+        SourceDTO resouce = null;
 
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "select productID, productName, color, categoryID, quanlity, createDate from dbo.Resources where productID = ? ";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, resourceID);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    resouce = new SourceDTO(rs.getString(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            rs.getString(5),
+                            rs.getString(6));
+                }
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return resouce;
     }
 
- 
-    
-  
+    public boolean updateQuanityResource(String productID, int quanity) throws SQLException, NamingException, ClassNotFoundException {
+        boolean flag = false;
+        SourceDTO resouce = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "update dbo.Resources SET quanlity = ? "
+                        + "where productID = ? ";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, quanity);
+                ps.setString(2, productID);
+                flag = ps.executeUpdate() > 0 ? true : false;
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return flag;
+    }
 }

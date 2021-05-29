@@ -8,11 +8,15 @@ package MinhT.Controller;
 
 import MinhT.dao.RequestDAO;
 import MinhT.dao.SourceDAO;
+import MinhT.dao.StatusRequestsDAO;
 import MinhT.dto.CategoriesDTO;
 import MinhT.dto.RequestDTO;
 import MinhT.dto.SourceDTO;
+import MinhT.dto.StatusRequestDTO;
+import MinhT.dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -49,6 +53,20 @@ public class LoadSourceControll extends HttpServlet {
             session.setAttribute("src", list);
             List<RequestDTO> listReq = dao1.loadReqsData();
             request.setAttribute("listReq", listReq);
+            UserDTO user = (UserDTO) session.getAttribute("user");
+            RequestDAO requestDAO = new RequestDAO();
+            SourceDAO resourceDAO = new SourceDAO();
+            StatusRequestsDAO statusRequestDAO = new StatusRequestsDAO();
+            List<RequestDTO> listRequestBooking = new ArrayList<>();
+            List<SourceDTO> listResources = new ArrayList<>();
+            ArrayList<StatusRequestDTO> listStatusRequest = new ArrayList<>();
+            listRequestBooking= requestDAO.loadReqsData();
+            listResources=resourceDAO.loadData();
+            listStatusRequest= statusRequestDAO.getAllListStatusRequest();
+            request.setAttribute("listStatusRequest", listStatusRequest);
+            
+            request.setAttribute("listResouces", listResources);
+            request.setAttribute("listRequestBooking", listRequestBooking);
             url=LOAD_SUCCESS;
         } catch (Exception e) {
         }finally{

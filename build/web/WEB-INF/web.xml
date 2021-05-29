@@ -40,6 +40,22 @@
         <servlet-name>VerifyCodeServlet</servlet-name>
         <servlet-class>MinhT.Controller.VerifyCodeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadRequetsControll</servlet-name>
+        <servlet-class>MinhT.Controller.loadRequetsControll</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteReqsFromUser</servlet-name>
+        <servlet-class>MinhT.Controller.DeleteReqsFromUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResetController</servlet-name>
+        <servlet-class>MinhT.Controller.ResetController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AcceptReqsController</servlet-name>
+        <servlet-class>MinhT.Controller.AcceptReqsController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -79,6 +95,22 @@
     <servlet-mapping>
         <servlet-name>VerifyCodeServlet</servlet-name>
         <url-pattern>/VerifyCodeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadRequetsControll</servlet-name>
+        <url-pattern>/loadRequetsControll</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteReqsFromUser</servlet-name>
+        <url-pattern>/DeleteReqsFromUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResetController</servlet-name>
+        <url-pattern>/ResetController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AcceptReqsController</servlet-name>
+        <url-pattern>/AcceptReqsController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

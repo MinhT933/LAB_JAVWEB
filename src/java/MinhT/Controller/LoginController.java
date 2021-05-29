@@ -21,7 +21,8 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginController extends HttpServlet {
 
-    private static final String SUCCESS = "LoadSourceControll";
+    private static final String SUCCESS_USER = "LoadSourceControll";
+    private static final String SUCCESS_ADMIN="loadRequetsControll";
     private static final String ERROR = "login.jsp";
 
     /**
@@ -46,7 +47,11 @@ public class LoginController extends HttpServlet {
             if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("acc", user);
-                url = SUCCESS;
+            if(user.getRoleID()==1)
+                url = SUCCESS_USER;
+            else if(user.getRoleID()==2){
+                url=SUCCESS_ADMIN;
+            }
             } else {
                 request.setAttribute("mess", "Wrong user or password");
                 url = ERROR;

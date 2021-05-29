@@ -5,31 +5,26 @@
  */
 package MinhT.Controller;
 
+import MinhT.MyConstants;
 import MinhT.dao.RequestDAO;
 import MinhT.dao.SourceDAO;
-import MinhT.dao.StatusRequestsDAO;
-import MinhT.dto.RequestDTO;
 import MinhT.dto.SourceDTO;
-import MinhT.dto.StatusRequestDTO;
-import MinhT.dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author MinhT
  */
-public class LoadlListBookingControll extends HttpServlet {
-
-    private String ERROR = "Login.jsp";
-    private String SUCCESS = "ViewListBooking.jsp";
+public class AcceptReqsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,32 +36,34 @@ public class LoadlListBookingControll extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+            throws ServletException, IOException, NamingException {
         try {
-            HttpSession session = request.getSession();
-            UserDTO user = (UserDTO) session.getAttribute("user");
+            response.setContentType("text/html;charset=UTF-8");
+            String requestID = request.getParameter("requestID");
+            String isConfirm = request.getParameter("flag");
+            String productID = request.getParameter("productID");
             RequestDAO requestDAO = new RequestDAO();
             SourceDAO resourceDAO = new SourceDAO();
-            StatusRequestsDAO statusRequestDAO = new StatusRequestsDAO();
-            List<RequestDTO> listRequestBooking = new ArrayList<>();
-            List<SourceDTO> listResources = new ArrayList<>();
-            ArrayList<StatusRequestDTO> listStatusRequest = new ArrayList<>();
-            listRequestBooking= requestDAO.loadReqsData();
-            listResources=resourceDAO.loadData();
-            listStatusRequest= statusRequestDAO.getAllListStatusRequest();
-            request.setAttribute("listStatusRequest", listStatusRequest);
-            request.setAttribute("listResouces", listResources);
-            
-            request.setAttribute("listRequestBooking", listRequestBooking);
-            
-         
-            url = SUCCESS;
-        } catch (Exception e) {
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            SourceDTO resource = resourceDAO.getDetailResource(productID);
+            int quanlity = Integer.parseInt(resource.getQuanlity());
+            if(Boolean.parseBoolean(isConfirm)){
+                boolean isStatusActive = requestDAO.updateStatusRequest(Integer.parseInt(requestID), MyConstants.STATUS_REQUEST_ACTIVE);
+                boolean updateQuanity = resourceDAO.updateQuanityResource(productID, quanlity - 1);
+                if(updateQuanity&& isStatusActive){
+                    request.setAttribute("successConfirm", "Confirm successfully");
+                }
+                
+                
+            }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(AcceptReqsController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AcceptReqsController.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+             request.getRequestDispatcher("loadRequetsControll").forward(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,8 +78,14 @@ public class LoadlListBookingControll extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+      
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(AcceptReqsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+        
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -95,7 +98,13 @@ public class LoadlListBookingControll extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(AcceptReqsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**

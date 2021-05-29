@@ -38,6 +38,11 @@
 
         <div>
             <a href="MainController?btnAction=reset">Go Back To Home</a>
+            <div class="input-group-append">
+            <button type="submit" class="btn btn-secondary btn-number">
+                <a class="fa fa-search" href="loadRequetsControll"> Home</a>
+            </button>
+            </div>
         </div>
         <h1 style="color: green">${requestScope.successDelete}</h1>
         <h1 style="color: green">${requestScope.errorDelete}</h1>
@@ -47,9 +52,9 @@
                     <th>RequestID</th>
                     <th>DateBook</th>
                     <th>email</th>
-                    <th>Waiting</th>
                     <th>productName</th>
                     <th>status</th>
+                    <th>waiting</th>
                     <th>Delete</th>
                 </tr>
             </thead>
