@@ -60,7 +60,10 @@ public class AcceptReqsController extends HttpServlet {
             Logger.getLogger(AcceptReqsController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AcceptReqsController.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
              request.getRequestDispatcher("loadRequetsControll").forward(request, response);
         }
         

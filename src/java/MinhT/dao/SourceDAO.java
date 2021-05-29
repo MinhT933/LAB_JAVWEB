@@ -127,17 +127,17 @@ public class SourceDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "select productID, productName, color, categoryID, quanlity, createDate from dbo.Resources where productID = ? ";
+                String sql = "select productID, productName, color, categoryID, quanlity, createDate  FROM [ResourceSharing1].[dbo].[Resources] where productID = ? ";
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, resourceID);
                 rs = ps.executeQuery();
                 if (rs.next()) {
-                    resouce = new SourceDTO(rs.getString(1),
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            rs.getString(5),
-                            rs.getString(6));
+                    resouce = new SourceDTO(rs.getString("productName"),
+                            rs.getString("productName"),
+                            rs.getString("color"),
+                            rs.getString("quanlity"),
+                            rs.getString("categoryID"),
+                            rs.getString("createDate"));
                 }
             }
         } finally {
@@ -163,7 +163,7 @@ public class SourceDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "update dbo.Resources SET quanlity = ? "
+                String sql = "update [ResourceSharing1].[dbo].[Resources] SET quanlity = ? "
                         + "where productID = ? ";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, quanity);
